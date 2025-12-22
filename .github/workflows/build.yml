@@ -40,7 +40,7 @@ jobs:
           - os: windows-latest
             platform: windows
             command: flutter build windows --release
-            build_path: build/windows/runner/Release/
+            build_path: build/windows/x64/runner/Release/
             asset_name: windows-x64.zip
 
     runs-on: ${{ matrix.os }}
