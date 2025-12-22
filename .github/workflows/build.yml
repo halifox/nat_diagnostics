@@ -70,19 +70,29 @@ jobs:
       - name: Post Build - Prepare Artifacts
         shell: bash
         run: |
+          # 获取根目录的绝对路径，转换为 Unix 风格路径
+          ROOT_DIR=$(pwd)
+          
           if [ "${{ matrix.platform }}" == "android" ]; then
-            cp ${{ matrix.build_path }} ./${{ matrix.asset_name }}
+            cp ${{ matrix.build_path }} "$ROOT_DIR/${{ matrix.asset_name }}"
+          
           elif [ "${{ matrix.platform }}" == "linux" ]; then
-            tar -czf ${{ matrix.asset_name }} -C ${{ matrix.build_path }} .
+            tar -czf "$ROOT_DIR/${{ matrix.asset_name }}" -C ${{ matrix.build_path }} .
+          
           elif [ "${{ matrix.platform }}" == "ios" ]; then
-            zip -r ${{ matrix.asset_name }} ${{ matrix.build_path }}
+            zip -r "$ROOT_DIR/${{ matrix.asset_name }}" ${{ matrix.build_path }}
+          
           elif [ "${{ matrix.platform }}" == "macos" ]; then
-            # 进入目录压缩以避免包含多层 build/... 路径
-            cd ${{ matrix.build_path }} && zip -r ../../../../${{ matrix.asset_name }} ./*.app && cd -
+            cd ${{ matrix.build_path }} && zip -r "$ROOT_DIR/${{ matrix.asset_name }}" ./*.app
+          
           elif [ "${{ matrix.platform }}" == "windows" ]; then
-            # Windows 环境下 bash 同样可用
-            cd ${{ matrix.build_path }} && 7z a ../../../../${{ matrix.asset_name }} * && cd -
+            # 使用 7z 压缩，直接指定到根目录的绝对路径
+            # 注意：Windows 下 build_path 结尾可能有斜杠，使用引号包裹
+            cd "${{ matrix.build_path }}" && 7z a "$ROOT_DIR/${{ matrix.asset_name }}" *
           fi
+          
+          # 回到根目录确保后续步骤能找到文件
+          cd "$ROOT_DIR"
 
       # 此时只上传根目录下的最终文件
       - name: Upload to Actions
