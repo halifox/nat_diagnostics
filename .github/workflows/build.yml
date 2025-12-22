@@ -126,6 +126,6 @@ jobs:
             ./release_assets/*.tar.gz
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          draft: true
+          draft: false
           prerelease: false
           generate_release_notes: true
