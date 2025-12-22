@@ -8,9 +8,8 @@
 
 - 🌐 提供 NAT 类型检测功能。
 - 🎨 简洁美观的用户界面，易于操作。
-- 🛑 完全离线，不依赖互联网连接。
 - 🚫 无非必要的权限请求，尊重用户隐私。
-- 📱 支持多平台（Windows、Mac、Linux、Android、iOS、Web）。
+- 📱 支持多平台（Windows、Mac、Linux、Android、iOS）。
 
 ---
 
